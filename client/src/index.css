@@ -1,0 +1,186 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+
+/* ========== 主题变量：默认暗黑，html.light 切换亮色 ========== */
+:root {
+  --bg: #070b14;
+  --bg-soft: #0b1120;
+  --surface: rgba(17, 24, 39, 0.6);
+  --surface-solid: #111827;
+  --line: rgba(148, 163, 184, 0.14);
+  --ink: #e7ecf5;
+  --muted: #8b98ad;
+  --accent: #6366f1;
+  --accent-2: #22d3ee;
+}
+
+html.light {
+  --bg: #f6f7fb;
+  --bg-soft: #eef1f8;
+  --surface: rgba(255, 255, 255, 0.75);
+  --surface-solid: #ffffff;
+  --line: rgba(15, 23, 42, 0.1);
+  --ink: #0f172a;
+  --muted: #5b6472;
+}
+
+/* 把变量注册成 Tailwind 颜色，全站用 bg-bg / text-ink / border-line 等语义类 */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-soft: var(--bg-soft);
+  --color-surface: var(--surface);
+  --color-surface-solid: var(--surface-solid);
+  --color-line: var(--line);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, "Microsoft YaHei", sans-serif;
+}
+
+body {
+  @apply bg-bg text-ink antialiased font-sans;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 选中文字 */
+::selection {
+  background: color-mix(in srgb, var(--accent) 45%, transparent);
+  color: #fff;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 35%, var(--muted));
+  border-radius: 8px;
+  border: 2px solid var(--bg);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ========== 通用质感工具类 ========== */
+
+/* 玻璃拟态卡片 */
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+}
+
+/* 渐变文字 */
+.text-gradient {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* 渐变按钮 */
+.btn-gradient {
+  background: linear-gradient(120deg, var(--accent), var(--accent-2));
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.btn-gradient:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--accent) 70%, transparent);
+}
+.btn-gradient:disabled { opacity: 0.5; }
+
+/* 悬浮描边发光卡片 */
+.card-glow {
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.card-glow:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 12px 40px -12px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* Hero 背景光斑 */
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(40px, -50px) scale(1.12); }
+  66% { transform: translate(-30px, 30px) scale(0.94); }
+}
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.5;
+  animation: blob-float 14s ease-in-out infinite;
+  pointer-events: none;
+}
+html.light .blob { opacity: 0.35; }
+
+/* 网格背景 */
+.bg-grid {
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 30%, transparent 75%);
+}
+
+/* 打字机光标 */
+@keyframes caret-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.type-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  margin-left: 3px;
+  vertical-align: -0.15em;
+  background: var(--accent-2);
+  animation: caret-blink 0.9s step-end infinite;
+}
+
+/* 骨架屏 */
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  border-radius: 0.5rem;
+  background: linear-gradient(90deg, var(--line) 25%, color-mix(in srgb, var(--muted) 25%, transparent) 50%, var(--line) 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+/* ========== Quill 富文本编辑器深色适配 ========== */
+.ql-toolbar.ql-snow {
+  border: 1px solid var(--line) !important;
+  border-radius: 0.75rem 0.75rem 0 0;
+  background: var(--bg-soft);
+}
+.ql-container.ql-snow {
+  border: 1px solid var(--line) !important;
+  border-top: none !important;
+  border-radius: 0 0 0.75rem 0.75rem;
+  background: var(--surface-solid);
+}
+html:not(.light) .ql-snow .ql-stroke { stroke: #9aa7bd; }
+html:not(.light) .ql-snow .ql-fill { fill: #9aa7bd; }
+html:not(.light) .ql-snow .ql-picker-label { color: #9aa7bd; }
+html:not(.light) .ql-snow .ql-picker-options {
+  background: var(--surface-solid);
+  border-color: var(--line);
+}
+html:not(.light) .ql-snow.ql-toolbar button:hover .ql-stroke,
+html:not(.light) .ql-snow.ql-toolbar button:focus .ql-stroke { stroke: var(--accent-2); }
+html:not(.light) .ql-editor { color: var(--ink); }
+html:not(.light) .ql-snow .ql-editor.ql-blank::before { color: var(--muted); }
+/* 前台文章正文内的代码/引用样式 */
+.ql-editor blockquote {
+  border-left: 3px solid var(--accent) !important;
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--muted);
+}
+.ql-editor pre {
+  background: var(--bg-soft) !important;
+  color: var(--ink) !important;
+  border-radius: 0.5rem;
+}
+.ql-editor img { border-radius: 0.75rem; max-width: 100%; }
