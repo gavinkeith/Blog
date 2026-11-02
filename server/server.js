@@ -18,6 +18,42 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'API is running' });
 });
 
+// API 首页
+app.get('/', (req, res) => {
+  res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Capstone Portfolio API</title>
+  <style>
+    body{background:#0b1020;color:#e2e8f0;font-family:system-ui,sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+    .card{background:#151b2e;border:1px solid #2a3450;border-radius:16px;padding:40px 48px;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    h1{margin:0 0 8px;font-size:22px}
+    .ok{color:#34d399;font-size:14px;margin-bottom:24px}
+    ul{line-height:2;padding-left:20px;margin:0}
+    code{background:#1e2740;padding:2px 8px;border-radius:6px;font-size:13px}
+    a{color:#818cf8;text-decoration:none}
+    p.meta{margin-top:24px;font-size:13px;color:#94a3b8}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Capstone Portfolio API</h1>
+    <div class="ok">● Status: running</div>
+    <ul>
+      <li><code>GET /api/health</code> — health check</li>
+      <li><code>GET /api/projects</code> — list projects</li>
+      <li><code>GET /api/blog</code> — list blog posts</li>
+      <li><code>POST /api/contact</code> — contact form</li>
+      <li><code>POST /api/users/login</code> — JWT login</li>
+    </ul>
+    <p class="meta">Source: <a href="https://github.com/gavinkeith/Blog">github.com/gavinkeith/Blog</a></p>
+  </div>
+</body>
+</html>`);
+});
+
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/blog', require('./routes/blogRoutes'));       // 博客路由
