@@ -48,7 +48,6 @@ app.get('/', (req, res) => {
       <li><code>POST /api/contact</code> — contact form</li>
       <li><code>POST /api/users/login</code> — JWT login</li>
     </ul>
-    <p class="meta">Source: <a href="https://github.com/gavinkeith/Blog">github.com/gavinkeith/Blog</a></p>
   </div>
 </body>
 </html>`);
